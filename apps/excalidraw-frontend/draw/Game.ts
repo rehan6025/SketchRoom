@@ -1,4 +1,3 @@
-import { styleText } from "util";
 import { getExistingShapes } from "./http";
 import { Tool } from "@/components/Canvas";
 
@@ -83,6 +82,29 @@ export class Game {
     this.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
 
+      if (message.type === "batch") {
+        for (const m of message.messages) {
+          if (m.type === "chat") {
+            const parsedShape = JSON.parse(m.message);
+            this.existingShapes.push(parsedShape.shape);
+          } else if (m.type === "erase") {
+            const parsed = JSON.parse(m.message);
+            const shapeToRemove: Shape | undefined = parsed.shape;
+            const eraseAt: { x: number; y: number } | undefined =
+              parsed.eraseAt;
+            if (shapeToRemove) {
+              this.existingShapes = this.existingShapes.filter(
+                (s) => !this.areShapesEqual(s, shapeToRemove)
+              );
+            } else if (eraseAt) {
+              this.existingShapes = this.existingShapes.filter(
+                (s) => !this.isMouseOverShape(eraseAt.x, eraseAt.y, s)
+              );
+            }
+          }
+        }
+        this.clearCanvas();
+      }
       if (message.type === "chat") {
         const parsedShape = JSON.parse(message.message);
         this.existingShapes.push(parsedShape.shape);
@@ -270,10 +292,12 @@ export class Game {
   isMouseOverShape(mouseX: number, mouseY: number, shape: Shape) {
     if (shape?.type === "rect") {
       return (
-        mouseX >= shape.x &&
-        mouseX <= shape.x + shape.width &&
-        mouseY >= shape.y &&
-        mouseY <= shape.y + shape.height
+        (mouseX >= shape.x &&
+          mouseX <= shape.x + shape.width &&
+          (mouseY == shape.y || mouseY == shape.y + shape.height)) ||
+        (mouseY >= shape.y &&
+          mouseY <= shape.y + shape.height &&
+          (mouseX == shape.x || mouseX == shape.x + shape.width))
       );
     }
 

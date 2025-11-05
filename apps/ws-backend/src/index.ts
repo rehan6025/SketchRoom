@@ -4,12 +4,57 @@ import { JWT_SECRET } from "@repo/common";
 import { prismaClient } from "@repo/db";
 
 const wss = new WebSocketServer({ port: 8080 });
+const SKIP_DB = process.env.NO_DB === "1" || process.env.NO_DB === "true";
+const FLUSH_MS = Number(process.env.FLUSH_MS ?? 10);
+const MAX_BATCH_SIZE = Number(process.env.MAX_BATCH_SIZE ?? 100);
 
 interface User {
   ws: WebSocket;
   rooms: number[];
   userId: string;
 }
+
+type OutgoingMessage = {
+  type: "chat" | "erase";
+  message: string;
+  roomId: number;
+};
+
+const roomBuffers = new Map<number, OutgoingMessage[]>();
+const roomMembers = new Map<number, Set<WebSocket>>();
+
+let metricBatchFlushes = 0;
+let metricMessagesBatched = 0;
+let metricFramesSent = 0;
+
+function flushRoom(roomId: number) {
+  const batch = roomBuffers.get(roomId);
+  if (!batch || batch.length === 0) {
+    return;
+  }
+
+  const payload = JSON.stringify({ type: "batch", messages: batch });
+
+  const members = roomMembers.get(roomId);
+  if (members && members.size > 0) {
+    members.forEach((sock) => {
+      try {
+        sock.send(payload);
+        metricFramesSent += 1;
+      } catch {}
+    });
+  }
+
+  roomBuffers.set(roomId, []);
+  metricBatchFlushes += 1;
+  metricMessagesBatched += batch.length;
+}
+
+setInterval(() => {
+  for (const roomId of roomBuffers.keys()) {
+    flushRoom(roomId);
+  }
+}, FLUSH_MS);
 
 const users: User[] = [];
 
@@ -62,6 +107,17 @@ wss.on("connection", function connection(ws, request) {
     if (parsedData.type === "join_room") {
       const user = users.find((x) => x.ws === ws);
       user?.rooms.push(Number(parsedData.roomId));
+      const rId = Number(parsedData.roomId);
+      if (!roomMembers.has(rId)) roomMembers.set(rId, new Set());
+      roomMembers.get(rId)!.add(ws);
+      try {
+        ws.send(
+          JSON.stringify({
+            type: "joined",
+            roomId: rId,
+          })
+        );
+      } catch {}
     }
 
     if (parsedData.type === "leave_room") {
@@ -71,31 +127,39 @@ wss.on("connection", function connection(ws, request) {
       }
       const leaveId = Number(parsedData.room ?? parsedData.roomId);
       user.rooms = user.rooms.filter((x) => x !== leaveId);
+      const set = roomMembers.get(leaveId);
+      if (set) {
+        set.delete(ws);
+        if (set.size === 0) roomMembers.delete(leaveId);
+      }
     }
 
     if (parsedData.type && parsedData.type.trim() === "chat") {
       const roomId: number = Number(parsedData.roomId);
       const message = parsedData.message;
 
-      await prismaClient.chat.create({
-        data: {
-          roomId: roomId,
-          message,
-          userId,
-        },
-      });
-
-      users.forEach((user) => {
-        if (user.rooms.includes(roomId)) {
-          user.ws.send(
-            JSON.stringify({
-              type: "chat",
-              message: message,
-              roomId,
-            })
-          );
+      if (!SKIP_DB) {
+        try {
+          await prismaClient.chat.create({
+            data: {
+              roomId: roomId,
+              message,
+              userId,
+            },
+          });
+        } catch (e) {
+          console.error("ws: chat.create failed", e);
         }
-      });
+      }
+
+      const msg: OutgoingMessage = { type: "chat", message, roomId };
+      if (!roomBuffers.has(roomId)) {
+        roomBuffers.set(roomId, []);
+      }
+
+      const buf = roomBuffers.get(roomId)!;
+      buf.push(msg);
+      if (buf.length >= MAX_BATCH_SIZE) flushRoom(roomId);
     }
 
     if (parsedData.type && parsedData.type.trim() === "erase") {
@@ -106,39 +170,53 @@ wss.on("connection", function connection(ws, request) {
       const parsedMessage = JSON.parse(message);
       const shapeId = parsedMessage.shapeId;
 
-      try {
-        const chatToDelete = await prismaClient.chat.findFirst({
-          where: {
-            roomId: roomId,
-            message: {
-              contains: `"id":"${shapeId}"`,
-            },
-          },
-        });
-
-        if (chatToDelete) {
-          await prismaClient.chat.delete({
+      if (!SKIP_DB) {
+        try {
+          const chatToDelete = await prismaClient.chat.findFirst({
             where: {
-              id: chatToDelete.id,
+              roomId: roomId,
+              message: {
+                contains: `"id":"${shapeId}"`,
+              },
             },
           });
+
+          if (chatToDelete) {
+            await prismaClient.chat.delete({
+              where: {
+                id: chatToDelete.id,
+              },
+            });
+          }
+        } catch (error) {
+          console.error("Error deleting chat:", error);
         }
-      } catch (error) {
-        console.error("Error deleting chat:", error);
       }
 
       //ab broadcast
-      users.forEach((user) => {
-        if (user.rooms.includes(roomId)) {
-          user.ws.send(
-            JSON.stringify({
-              type: "erase",
-              message: message,
-              roomId,
-            })
-          );
-        }
-      });
+      const msg: OutgoingMessage = { type: "erase", message, roomId };
+      if (!roomBuffers.has(roomId)) {
+        roomBuffers.set(roomId, []);
+      }
+
+      const buf = roomBuffers.get(roomId)!;
+      buf.push(msg);
+      if (buf.length >= MAX_BATCH_SIZE) flushRoom(roomId);
     }
+  });
+
+  ws.on("close", () => {
+    // Cleanup from all rooms
+    users.forEach((u) => {
+      if (u.ws === ws) {
+        u.rooms.forEach((rid) => {
+          const set = roomMembers.get(rid);
+          if (set) {
+            set.delete(ws);
+            if (set.size === 0) roomMembers.delete(rid);
+          }
+        });
+      }
+    });
   });
 });
