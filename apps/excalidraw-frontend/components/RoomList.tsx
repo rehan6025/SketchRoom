@@ -111,12 +111,12 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-8">
-            <div className="mb-8 mt-5">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
+            <div className="mb-8 mt-15">
+                <h1 className="text-3xl font-bold text-text-primary mb-2">
                     My Sketch Rooms
                 </h1>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                     Manage and access all your collaborative drawing spaces
                 </p>
             </div>
@@ -157,7 +157,7 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
                         onClick={() => setViewMode("grid")}
                         className={`p-2 rounded-md transition-colors ${
                             viewMode === "grid"
-                                ? "bg-white text-purple-600 shadow-sm"
+                                ? "bg-white text-cyan-600 shadow-sm"
                                 : "text-gray-600 hover:text-gray-900"
                         }`}
                     >
@@ -167,7 +167,7 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
                         onClick={() => setViewMode("list")}
                         className={`p-2 rounded-md transition-colors ${
                             viewMode === "list"
-                                ? "bg-white text-purple-600 shadow-sm"
+                                ? "bg-white text-cyan-600 shadow-sm"
                                 : "text-gray-600 hover:text-gray-900"
                         }`}
                     >
@@ -179,10 +179,10 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
             <div className="grid">
                 {rooms.length === 0 ? (
                     <div className="text-center py-12">
-                        <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div className="w-24 h-24 bg-bg-primary transition-colors duration-300 rounded-full flex items-center justify-center mx-auto mb-4">
                             <Palette className="w-12 h-12 text-gray-400" />
                         </div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                        <h3 className="text-xl font-semibold text-text-primary mb-2">
                             No rooms found
                         </h3>
                     </div>

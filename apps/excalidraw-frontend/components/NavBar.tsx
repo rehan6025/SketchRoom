@@ -1,8 +1,9 @@
 "use client";
-import { Button } from "@repo/ui/button";
-import { Palette } from "lucide-react";
-import Link from "next/link";
+import { Palette, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+import Logo from "./Logo";
+import { Button } from "@repo/ui/button";
+import Link from "next/link";
 
 export function Navbar() {
     const [hasToken, setHasToken] = useState(false);
@@ -13,6 +14,15 @@ export function Navbar() {
         if (stored === "dark") {
             document.documentElement.classList.add("dark");
             setIsDark(true);
+        }
+        if (!stored) {
+            const match = window.matchMedia(
+                "(prefers-color-scheme: dark)"
+            ).matches;
+            if (match) {
+                document.documentElement.classList.add("dark");
+                setIsDark(true);
+            }
         }
     }, []);
 
@@ -25,8 +35,9 @@ export function Navbar() {
     };
 
     useEffect(() => {
-        setHasToken(!!localStorage.getItem("token"));
-    }, []);
+        const token = localStorage.getItem("token");
+        if (token) setHasToken(true);
+    });
 
     const handleSignOut = () => {
         localStorage.clear();
@@ -34,37 +45,39 @@ export function Navbar() {
     };
 
     return (
-        // fixed container
-        <nav className="fixed top-0 w-full bg-background backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 z-50 transition-colors duration-500">
-            {/* content container */}
+        <nav className="fixed transition-colors duration-300 top-0 w-full bg-bg-primary/60 dark:bg-bg-primary/70 backdrop-blur-sm border-b-2  border-border-primary z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* horizntal flex layout  */}
                 <div className="flex items-center justify-between h-16">
-                    {/* logo section  */}
-
-                    <Link className="flex space-x-2 items-center" href={"/"}>
-                        <div className="w-8 h-8 flex items-center justify-center bg-[--background] rounded-lg">
-                            <Palette className="w-5 h-5 text-white" />
-                        </div>
-                        <span className="text-text-clr ">SketchRoom</span>
+                    <Link className="flex space-x-2 items-center" href="/">
+                        <Logo />
+                        <span className="text-text-primary font-semibold">
+                            SketchRoom
+                        </span>
                     </Link>
-                    {/*navigation & essential buttons*/}
-                    <div className="hidden md:flex items-center space-x-6 text-lg">
+
+                    <div className="hidden md:flex items-center space-x-6">
                         <button
                             onClick={toggleTheme}
-                            className="text-text-clr hover:text-gray-900 transition-colors"
+                            className="text-text-primary hover:text-text-secondary transition-colors cursor-pointer"
+                            aria-label="Toggle theme"
                         >
-                            {isDark ? "Light" : "Dark"}
+                            {isDark ? (
+                                <Sun className="w-5 h-5" />
+                            ) : (
+                                <Moon className="w-5 h-5" />
+                            )}
                         </button>
+
                         <Link
-                            href={"/#features"}
-                            className="text-gray-600 hover:text-gray-900 transition-colors"
+                            href="/#features"
+                            className="text-text-primary hover:text-clr-accent transition-colors"
                         >
                             Features
                         </Link>
+
                         <Link
-                            href={"/#how-it-works"}
-                            className="text-gray-600 hover:text-gray-900 transition-colors"
+                            href="/#how-it-works"
+                            className="text-text-primary hover:text-clr-accent transition-colors"
                         >
                             How it works
                         </Link>

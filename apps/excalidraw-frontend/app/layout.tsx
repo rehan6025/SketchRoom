@@ -15,6 +15,12 @@ const _twSafelist = [
     "py-4",
     "text-lg",
     "bg-gradient-to-r",
+    "bg-secondary",
+    "text-accent",
+    "hover:text-accent-hover",
+    "hover:border-accent-hover",
+
+    "border-accent",
     "from-purple-500",
     "to-blue-500",
     "text-white",
@@ -45,7 +51,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className="transition-colors duration-300">
+            <head></head>
             <body className="antialiased">{children}</body>
         </html>
     );

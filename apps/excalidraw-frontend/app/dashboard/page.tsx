@@ -22,7 +22,7 @@ export default async function Dashboard() {
     const rooms: Room[] = await getUserRooms();
     return (
         <ProtectedRoute>
-            <div className="h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-orange-50 ">
+            <div className="h-screen bg-bg-primary transition-colors duration-300">
                 <Navbar />
                 <RoomList initialRooms={rooms} />
             </div>

@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import IconButton from "./IconButton";
-import { Circle, Eraser, Pencil, RectangleHorizontalIcon } from "lucide-react";
+import {
+    Circle,
+    Eraser,
+    Pencil,
+    RectangleHorizontalIcon,
+    Sun,
+} from "lucide-react";
 import { Game } from "../draw/Game";
 
 export type Tool = "circle" | "rect" | "pencil" | "eraser";
@@ -21,8 +27,10 @@ export function Canvas({
     }, [selectedTool, game]);
 
     useEffect(() => {
+        const theme = localStorage.getItem("theme");
+        const isDark = theme === "dark";
         if (canvasRef.current) {
-            const g = new Game(canvasRef.current, roomId, socket);
+            const g = new Game(canvasRef.current, roomId, socket, isDark);
             setGame(g);
 
             return () => {
@@ -30,6 +38,10 @@ export function Canvas({
             };
         }
     }, [canvasRef, roomId, socket]);
+
+    const handleTheme = () => {
+        game?.changeTheme();
+    };
 
     return (
         <div className="h-screen overflow-hidden">
@@ -43,6 +55,7 @@ export function Canvas({
             <TopBar
                 selectedTool={selectedTool}
                 setSelectedTool={setSelectedTool}
+                handler={handleTheme}
             />
         </div>
     );
@@ -51,12 +64,14 @@ export function Canvas({
 function TopBar({
     selectedTool,
     setSelectedTool,
+    handler,
 }: {
     selectedTool: Tool;
     setSelectedTool: (s: Tool) => void;
+    handler: () => void;
 }) {
     return (
-        <div className="text-white fixed left-2.5 top-2.5 flex gap-6 bg-gray-800 px-4 py-2 rounded-3xl ">
+        <div className="text-white fixed bottom-6 left-1/2 transform -translate-x-1/2 flex gap-6 bg-gray-800 px-4 py-2 rounded-3xl ">
             <IconButton
                 activated={selectedTool === "pencil"}
                 icon={<Pencil />}
@@ -86,6 +101,15 @@ function TopBar({
                     setSelectedTool("eraser");
                 }}
             ></IconButton>
+
+            <button
+                className={
+                    "rounded-full pointer border p-2 bg-black hover:bg-gray-600 text-cyan-600"
+                }
+                onClick={handler}
+            >
+                <Sun />
+            </button>
         </div>
     );
 }

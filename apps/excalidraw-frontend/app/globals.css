@@ -1,25 +1,96 @@
 @import "tailwindcss";
-
 @theme {
-    --color-text-clr: var(--text-clr);
-    --color-background: var(--background);
+    /* Accent */
+    --color-accent: var(--clr-accent);
+    --color-accent-hover: var(--clr-accent-hover);
+
+    /* Backgrounds */
+    --color-bg-primary: var(--bg-primary);
+    --color-bg-secondary: var(--bg-secondary);
+    --color-bg-canvas: var(--bg-canvas);
+
+    /* Text & Foreground */
+    --color-fg-primary: var(--fg-primary);
+    --color-fg-secondary: var(--fg-secondary);
+    --color-text-primary: var(--text-primary);
+    --color-text-secondary: var(--text-secondary);
+    --color-text-light: var(--text-light);
+    --color-text-dark: var(--text-dark);
+
+    /* System Colors */
+    --color-success: var(--clr-success);
+    --color-warning: var(--clr-warning);
+    --color-error: var(--clr-error);
+
+    /* Borders */
+    --color-border-primary: var(--border-primary);
+    --color-border-secondary: var(--border-secondary);
+
+    /* Shadow */
+    --shadow-md: var(--shadow-md);
 }
 
 :root {
-    --text-clr: rgb(78, 78, 78);
-    --text-2: #676767;
-    --background: #f1f1f1;
-    --foreground: #171717;
+    /* 💡 Light Mode */
+    /* Primary Accent (Vibrant Cyan) */
+    --clr-accent: #00adb5;
+    --clr-accent-hover: #008d93;
+
+    /* I. Backgrounds */
+    --bg-primary: #f5f7fa;
+    --bg-secondary: #ffffff;
+    --bg-canvas: #fefefe;
+
+    /* II. Foreground & Text */
+    --fg-primary: #1f2937;
+    --fg-secondary: #6b7280;
+    --text-primary: #1f2937;
+    --text-secondary: #3b7573;
+    --text-light: #ffffff;
+    --text-dark: #111827;
+
+    /* III. System Colors */
+    --clr-success: #10b981;
+    --clr-warning: #f59e0b;
+    --clr-error: #ef4444;
+
+    /* IV. Borders & Shadows */
+    --border-primary: #3c5f59;
+    --border-secondary: #0f1817;
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 .dark {
-    --text-clr: #dfdfdf;
-    --text-2: #dadada;
-    --background: #171717;
-    --foreground: #eff6ff;
+    /* 🌙 Dark Mode */
+    /* Primary Accent (Vibrant Cyan) */
+    --clr-accent: #00adb5;
+    --clr-accent-hover: #1fcdcd;
+
+    /* I. Backgrounds */
+    --bg-primary: #222831;
+    --bg-secondary: #393e46;
+    --bg-canvas: #2c2c3c;
+
+    /* II. Foreground & Text */
+    --fg-primary: #eeeeee;
+    --fg-secondary: #b0b0b0;
+    --text-primary: #eeeeee;
+    --text-secondary: #a4dada;
+    --text-light: #ffffff;
+    --text-dark: #313131;
+
+    /* III. System Colors */
+    --clr-success: #34d399;
+    --clr-warning: #fbbf24;
+    --clr-error: #f87171;
+
+    /* IV. Borders & Shadows */
+    --border-primary: #418477;
+    --border-secondary: #354f4a;
+    --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-body {
+.html {
     /* background: var(--background);
   color: var(--foreground); */
     font-family: "Outfit", sans-serif, Arial, Helvetica;

@@ -14,6 +14,8 @@ import {
     CheckCircle,
 } from "lucide-react";
 import PageLoader from "./PageLoader";
+import Logo from "./Logo";
+import { Button } from "@repo/ui/button";
 
 export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
     const [email, setEmail] = useState("");
@@ -80,15 +82,13 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-orange-50 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-bg-primary flex items-center justify-center p-4 ">
             <div className="relative w-full max-w-md">
                 {/* Auth Card */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
                     {/* Logo */}
                     <div className="flex items-center justify-center space-x-3   mb-8">
-                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
-                            <Palette className="w-6 h-6 text-white" />
-                        </div>
+                        <Logo />
                         <span className="text-2xl font-bold text-gray-900">
                             SketchRoom
                         </span>
@@ -96,10 +96,10 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
 
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                        <h1 className="text-3xl font-bold text-text-dark mb-2">
                             {isSignIn ? "Welcome Back" : "Create Account"}
                         </h1>
-                        <p className="text-gray-600">
+                        <p className="text-text-secondary">
                             {isSignIn
                                 ? "Sign in to continue your creative journey"
                                 : "Join thousands of artists creating together"}
@@ -123,7 +123,7 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
                                         type="text"
                                         id="name"
                                         placeholder="Enter your full name"
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/50"
+                                        className="outline-none w-full pl-10 pr-4 py-3 border border-border-secondary rounded-lg focus:ring-2 focus:ring-border-primary focus:border-transparent transition-all duration-200 bg-white/50"
                                         onChange={(e) =>
                                             setName(e.target.value)
                                         }
@@ -147,7 +147,7 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
                                     type="email"
                                     id="email"
                                     placeholder="Enter your email"
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/50"
+                                    className="outline-none w-full pl-10 pr-4 py-3 border border-border-secondary rounded-lg focus:ring-2 focus:ring-border-primary focus:border-transparent transition-all duration-200 bg-white/50"
                                     onChange={(e) => setEmail(e.target.value)}
                                     value={email}
                                 />
@@ -168,7 +168,7 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
                                     type={showPassword ? "text" : "password"}
                                     id="password"
                                     placeholder="Enter your password"
-                                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white/50"
+                                    className="outline-none w-full pl-10 pr-4 py-3 border border-border-secondary rounded-lg focus:ring-2 focus:ring-border-primary focus:border-transparent transition-all duration-200 bg-white/50"
                                     onChange={(e) =>
                                         setPassword(e.target.value)
                                     }
@@ -195,7 +195,7 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
                             <div className="flex justify-end">
                                 <button
                                     type="button"
-                                    className="text-sm text-purple-600 hover:text-purple-700 transition-colors"
+                                    className="text-sm text-border-secondary cursor-pointer hover:text-border-primary transition-colors"
                                 >
                                     Forgot password?
                                 </button>
@@ -204,12 +204,14 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
 
                         {/* Submit Button */}
                         <div className="pt-2">
-                            <button
+                            <Button
+                                variant="primary"
+                                size="lg"
                                 onClick={handleAuth}
-                                className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                                className="w-full"
                             >
                                 {isSignIn ? "Sign In" : "Create Account"}
-                            </button>
+                            </Button>
                         </div>
                     </div>
 
@@ -229,7 +231,7 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
                             <button
                                 type="button"
                                 onClick={() => setIsSignIn(!isSignIn)}
-                                className="text-purple-600 hover:text-purple-700 font-semibold transition-colors"
+                                className="text-text-secondary hover:text-cyan-600 font-semibold transition-colors"
                             >
                                 {isSignIn ? "Sign Up" : "Sign In"}
                             </button>

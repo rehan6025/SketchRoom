@@ -28,13 +28,13 @@ export default function RoomCard({
     return (
         <div
             onClick={handleClick}
-            className={`cursor-pointer border border-gray-200 rounded-xl bg-white hover:shadow-md transition-all duration-200 relative group
+            className={`cursor-pointer border border-border-primary rounded-xl bg-bg-secondary hover:shadow-md transition-all duration-200 relative group
         ${viewMode === "grid" ? "p-4" : "p-3 flex items-center justify-between"}`}
         >
             {/* Delete button - positioned absolutely */}
             <button
                 onClick={handleDelete}
-                className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600 z-10"
+                className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600 z-10 cursor-pointer"
                 title="Delete room"
             >
                 <Trash2 className="w-4 h-4" />
@@ -42,13 +42,13 @@ export default function RoomCard({
 
             {viewMode === "grid" ? (
                 <>
-                    <div className="mb-2 font-semibold text-lg">
+                    <div className="mb-2 text-text-primary font-semibold text-lg">
                         {room.slug}
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-text-primary">
                         By {room.admin?.name || "Unknown"}
                     </div>
-                    <div className="text-xs text-gray-400 mt-1">
+                    <div className="text-xs text-text-secondary">
                         Created{" "}
                         {room.createdAt
                             ? format(new Date(room.createdAt), "dd MMM yyyy")
@@ -61,8 +61,10 @@ export default function RoomCard({
             ) : (
                 <>
                     <div>
-                        <div className="font-semibold">{room.slug}</div>
-                        <div className="text-xs text-gray-500">
+                        <div className="font-semibold text-text-primary">
+                            {room.slug}
+                        </div>
+                        <div className="text-xs text-text-secondary">
                             {room.createdAt
                                 ? format(
                                       new Date(room.createdAt),

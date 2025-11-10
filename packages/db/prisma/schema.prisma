@@ -34,9 +34,3 @@ model Chat {
   room    Room   @relation(fields: [roomId], references: [id])
   user    User   @relation(fields: [userId], references: [id])
 }
-
-model playing_with_neon {
-  id    Int    @id @default(autoincrement())
-  name  String
-  value Float? @db.Real
-}
