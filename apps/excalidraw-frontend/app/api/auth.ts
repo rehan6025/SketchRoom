@@ -7,6 +7,7 @@ export async function loginUser(email: string, password: string) {
             username: email,
             password,
         });
+
         const token = res.data.token;
         console.log(token);
 

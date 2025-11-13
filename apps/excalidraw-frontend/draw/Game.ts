@@ -314,31 +314,63 @@ export class Game {
     }
 
     isMouseOverShape(mouseX: number, mouseY: number, shape: Shape) {
-        if (shape?.type === "rect") {
-            return (
-                (mouseX >= shape.x &&
-                    mouseX <= shape.x + shape.width &&
-                    (mouseY == shape.y || mouseY == shape.y + shape.height)) ||
-                (mouseY >= shape.y &&
-                    mouseY <= shape.y + shape.height &&
-                    (mouseX == shape.x || mouseX == shape.x + shape.width))
-            );
-        }
+        const STROKE_THRESHOLD = 5;
+        if (shape === null) return false;
 
-        if (shape?.type === "circle") {
-            const dx = mouseX - shape.centerX;
-            const dy = mouseY - shape.centerY;
-
-            return dx * dx + dy * dy <= shape.radius * shape.radius;
-        }
-
-        if (shape?.type === "pencil") {
-            const threshold = 5;
+        if (shape.type === "pencil") {
+            const thresholdSquared = STROKE_THRESHOLD * STROKE_THRESHOLD;
             return shape.points.some((p) => {
                 const dx = mouseX - p.x;
                 const dy = mouseY - p.y;
-                return dx * dx + dy * dy <= threshold * threshold;
+                return dx * dx + dy * dy <= thresholdSquared;
             });
+        }
+
+        if (shape.type === "circle") {
+            const dx = mouseX - shape.centerX;
+            const dy = mouseY - shape.centerY;
+            const distanceSquared = dx * dx + dy * dy;
+
+            const radius = shape.radius;
+            const radiusSquared = radius * radius;
+
+            const innerRadiusSquared =
+                Math.max(0, radius - STROKE_THRESHOLD) ** 2;
+            const outerRadiusSquared = (radius + STROKE_THRESHOLD) ** 2;
+
+            return (
+                distanceSquared >= innerRadiusSquared &&
+                distanceSquared <= outerRadiusSquared
+            );
+        }
+
+        if (shape.type === "rect") {
+            const { x, y, width, height } = shape;
+
+            const outerX1 = x - STROKE_THRESHOLD;
+            const outerY1 = y - STROKE_THRESHOLD;
+            const outerX2 = x + width + STROKE_THRESHOLD;
+            const outerY2 = y + height + STROKE_THRESHOLD;
+
+            const innerX1 = x + STROKE_THRESHOLD;
+            const innerY1 = y + STROKE_THRESHOLD;
+            const innerX2 = x + width - STROKE_THRESHOLD;
+            const innerY2 = y + height - STROKE_THRESHOLD;
+
+            const isWithinOuterBounds =
+                mouseX >= outerX1 &&
+                mouseX <= outerX2 &&
+                mouseY >= outerY1 &&
+                mouseY <= outerY2;
+
+            const isOutsideInnerBounds = !(
+                mouseX > innerX1 &&
+                mouseX < innerX2 &&
+                mouseY > innerY1 &&
+                mouseY < innerY2
+            );
+
+            return isWithinOuterBounds && isOutsideInnerBounds;
         }
 
         return false;

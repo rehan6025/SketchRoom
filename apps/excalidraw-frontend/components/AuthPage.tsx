@@ -231,7 +231,7 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
                             <button
                                 type="button"
                                 onClick={() => setIsSignIn(!isSignIn)}
-                                className="text-text-secondary hover:text-cyan-600 font-semibold transition-colors"
+                                className="text-cyan-600 hover:text-cyan-500 font-semibold transition-colors"
                             >
                                 {isSignIn ? "Sign Up" : "Sign In"}
                             </button>

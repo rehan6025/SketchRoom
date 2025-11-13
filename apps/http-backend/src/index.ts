@@ -217,34 +217,42 @@ app.get("/chats/:roomId", async (req, res) => {
 });
 
 app.get("/room/:slug", async (req, res) => {
-    console.log("reached /room/slug");
-    const slug = req.params.slug;
-    const room = await prismaClient.room.findFirst({
-        where: {
-            slug,
-        },
-
-        include: {
-            admin: { select: { name: true } },
-            _count: { select: { chats: true } },
-        },
-    });
-
-    res.json({
-        roomId: room.id,
-        room: {
-            id: room.id,
-            slug: room.slug,
-            createdAt: room.createdAt,
-            adminId: room.adminId,
-            admin: {
-                name: room.admin.name,
+    try {
+        const slug = req.params.slug;
+        const room = await prismaClient.room.findFirst({
+            where: {
+                slug,
             },
-            _count: {
-                chats: room._count.chats,
+
+            include: {
+                admin: { select: { name: true } },
+                _count: { select: { chats: true } },
             },
-        },
-    });
+        });
+
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+
+        res.json({
+            roomId: room.id,
+            room: {
+                id: room.id,
+                slug: room.slug,
+                createdAt: room.createdAt,
+                adminId: room.adminId,
+                admin: {
+                    name: room.admin.name,
+                },
+                _count: {
+                    chats: room._count.chats,
+                },
+            },
+        });
+    } catch (error) {
+        console.error("Room not found", error);
+        return res.status(404).json({ message: "Room not found" });
+    }
 });
 
 app.get("/userRooms", middleware, async (req, res) => {

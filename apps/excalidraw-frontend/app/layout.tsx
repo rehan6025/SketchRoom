@@ -19,7 +19,7 @@ const _twSafelist = [
     "text-accent",
     "hover:text-accent-hover",
     "hover:border-accent-hover",
-
+    "bg-clr-accent",
     "border-accent",
     "from-purple-500",
     "to-blue-500",

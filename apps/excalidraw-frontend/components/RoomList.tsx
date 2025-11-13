@@ -37,25 +37,27 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
             router.push(`/canvas/${createdRoom.roomId}`);
         } catch (err) {
             toast.error("Failed to create room", { id: toastId });
-            console.log(err);
+            console.log("RoomList :: handleCreateRoom :: ", err);
         }
     };
 
     const handleJoinRoom = async (roomName: string) => {
+        const toastId = toast.loading("Entering...");
         try {
-            const id = toast.loading("Entering...");
             const res = await axios.get(`${HTTP_BACKEND}/room/${roomName}`);
             console.log(res);
+
             const room = res.data;
 
             setRooms((prevRooms) => [...prevRooms, room]);
-            toast.dismiss(id);
+            toast.dismiss(toastId);
             setNewRoom("");
 
             setIsNavigating(true);
             router.push(`/canvas/${room.roomId}`);
         } catch (error) {
             console.log("Roomlist :: handleJoinRoom ::", error);
+            toast.error("No room found!", { id: toastId });
         }
     };
 
@@ -127,7 +129,7 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
                     <input
                         type="text"
                         placeholder="Create a new room..."
-                        className="w-full pl-10 pr-4 py-4.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+                        className="outline-none w-full pl-10 pr-4 py-4.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-border-primary focus:border-transparent bg-white"
                         value={newRoom}
                         onChange={(e) => setNewRoom(e.target.value)}
                     />
@@ -180,7 +182,7 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
                 {rooms.length === 0 ? (
                     <div className="text-center py-12">
                         <div className="w-24 h-24 bg-bg-primary transition-colors duration-300 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <Palette className="w-12 h-12 text-gray-400" />
+                            <Palette className="w-12 transition-colors h-12 text-gray-400" />
                         </div>
                         <h3 className="text-xl font-semibold text-text-primary mb-2">
                             No rooms found
