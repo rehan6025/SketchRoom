@@ -37,7 +37,6 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
             router.push(`/canvas/${createdRoom.roomId}`);
         } catch (err) {
             toast.error("Failed to create room", { id: toastId });
-            console.log("RoomList :: handleCreateRoom :: ", err);
         }
     };
 
@@ -56,7 +55,6 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
             setIsNavigating(true);
             router.push(`/canvas/${room.roomId}`);
         } catch (error) {
-            console.log("Roomlist :: handleJoinRoom ::", error);
             toast.error("No room found!", { id: toastId });
         }
     };
@@ -88,7 +86,6 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
                 rooms.find((room) => room.id === roomId)!,
             ]);
             toast.error("Failed to delete room", { id: toastId });
-            console.log("roomlist:: handle delete:: ", error);
         }
     };
 

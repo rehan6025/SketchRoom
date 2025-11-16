@@ -6,10 +6,11 @@ import {
     Pencil,
     RectangleHorizontalIcon,
     Sun,
+    Text,
 } from "lucide-react";
 import { Game } from "../draw/Game";
 
-export type Tool = "circle" | "rect" | "pencil" | "eraser";
+export type Tool = "circle" | "rect" | "pencil" | "eraser" | "text";
 
 export function Canvas({
     roomId,
@@ -44,7 +45,10 @@ export function Canvas({
     };
 
     return (
-        <div className="h-screen overflow-hidden">
+        <div
+            id="canvas-container"
+            className="h-screen relative overflow-hidden"
+        >
             <canvas
                 className={selectedTool === "pencil" ? "cursor-crosshair" : ""}
                 ref={canvasRef}
@@ -71,7 +75,7 @@ function TopBar({
     handler: () => void;
 }) {
     return (
-        <div className="text-white fixed bottom-6 left-1/2 transform -translate-x-1/2 flex gap-6 bg-gray-800 px-4 py-2 rounded-3xl ">
+        <div className="text-white fixed bottom-6 left-1/2 transform -translate-x-1/2 flex gap-6 bg-cyan-900 px-4 py-2 rounded-3xl ">
             <IconButton
                 activated={selectedTool === "pencil"}
                 icon={<Pencil />}
@@ -99,6 +103,14 @@ function TopBar({
                 icon={<Eraser />}
                 onClick={() => {
                     setSelectedTool("eraser");
+                }}
+            ></IconButton>
+
+            <IconButton
+                activated={selectedTool === "text"}
+                icon={<Text />}
+                onClick={() => {
+                    setSelectedTool("text");
                 }}
             ></IconButton>
 

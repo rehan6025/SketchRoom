@@ -18,6 +18,13 @@ type Shape =
           radius: number;
       }
     | { id: string; type: "pencil"; points: { x: number; y: number }[] }
+    | {
+          id: string;
+          type: "text";
+          text: string;
+          x: number;
+          y: number;
+      }
     | null;
 
 export class Game {
@@ -34,6 +41,12 @@ export class Game {
         type: "pencil";
         points: { x: number; y: number }[];
     } | null = null;
+    private activeTextArea: {
+        element: HTMLTextAreaElement;
+        worldX: number;
+        worldY: number;
+        id: string;
+    } | null = null;
     private offsetX = 0;
     private offsetY = 0;
     private isPanning = false;
@@ -46,6 +59,77 @@ export class Game {
 
     private generateShapeId() {
         return Math.random().toString(36).slice(2, 7);
+    }
+
+    private createTextEditor(worldX: number, worldY: number) {
+        if (this.activeTextArea) {
+            this.finalizeTextShape();
+        }
+
+        const screenX = worldX * this.scale + this.offsetX;
+        const screenY = worldY * this.scale + this.offsetY;
+        const textarea = document.createElement("textarea");
+        textarea.style.position = "absolute";
+        textarea.style.left = `${screenX}px`;
+        textarea.style.top = `${screenY}px`;
+        textarea.style.zIndex = "10";
+        textarea.style.color = `${this.ctx.strokeStyle}`;
+
+        const parent = document.getElementById("canvas-container");
+        parent?.appendChild(textarea);
+        textarea?.focus();
+
+        const shapeId = this.generateShapeId();
+
+        this.activeTextArea = {
+            element: textarea,
+            worldX: worldX,
+            worldY: worldY,
+            id: shapeId,
+        };
+
+        textarea.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                this.finalizeTextShape();
+            }
+        });
+
+        setTimeout(() => {
+            textarea.addEventListener("blur", () => {
+                this.finalizeTextShape();
+            });
+        }, 0);
+    }
+
+    private finalizeTextShape() {
+        if (!this.activeTextArea) return;
+        const { element, worldX, worldY, id } = this.activeTextArea;
+        const text = element.value.trim();
+
+        this.activeTextArea = null;
+        element.remove();
+
+        if (text.length > 0) {
+            const shape: Shape = {
+                id,
+                type: "text",
+                text: text,
+                x: worldX,
+                y: worldY,
+            };
+
+            this.existingShapes.push(shape);
+            this.clearCanvas();
+
+            this.socket.send(
+                JSON.stringify({
+                    type: "chat",
+                    roomId: Number(this.roomId),
+                    message: JSON.stringify({ shape }),
+                })
+            );
+        }
     }
 
     constructor(
@@ -195,6 +279,23 @@ export class Game {
                     }
                     this.ctx.stroke();
                 }
+            } else if (shape?.type === "text") {
+                const BASE_FONT_SIZE = 24;
+
+                const scaledFontSize = BASE_FONT_SIZE * this.scale;
+
+                this.ctx.font = `${scaledFontSize}px Arial`;
+
+                const ogFillStyle = this.ctx.fillStyle;
+                this.ctx.fillStyle = this.ctx.strokeStyle;
+
+                this.ctx.fillText(
+                    shape.text,
+                    shape.x * this.scale + this.offsetX,
+                    shape.y * this.scale + this.offsetY
+                );
+
+                this.ctx.fillStyle = ogFillStyle;
             }
         });
 
@@ -297,6 +398,9 @@ export class Game {
                 points: this.currentStroke!.points,
             };
             this.currentStroke = null;
+        } else if (this.selectedTool === "text") {
+            this.createTextEditor(this.startX, this.startY);
+            return;
         }
 
         if (!shape) return;
@@ -371,6 +475,15 @@ export class Game {
             );
 
             return isWithinOuterBounds && isOutsideInnerBounds;
+        }
+
+        if (shape.type === "text") {
+            return (
+                shape.x <= mouseX + 50 &&
+                shape.x >= mouseX &&
+                shape.y <= mouseY + 50 &&
+                shape.y >= mouseY
+            );
         }
 
         return false;

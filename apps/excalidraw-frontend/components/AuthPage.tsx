@@ -37,7 +37,7 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
             if (!token) {
                 toast.error("Invalid credentials / user not found");
                 setTimeout(() => {
-                    router.push("/signup");
+                    router.push("/signin");
                 }, 2000);
                 return;
             }
@@ -57,9 +57,7 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
 
             if (!token) {
                 toast.error("Invalid credentials");
-                setTimeout(() => {
-                    router.push("/signup");
-                }, 1500);
+
                 return;
             }
             localStorage.setItem("token", token);
