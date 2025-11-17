@@ -1,9 +1,10 @@
 "use client";
-import { Palette, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
 import { Button } from "@repo/ui/button";
 import Link from "next/link";
+import DarkModeSwtich from "./DarkModeSwtich";
+import "../app/globals.css";
 
 export function Navbar() {
     const [hasToken, setHasToken] = useState(false);
@@ -56,7 +57,11 @@ export function Navbar() {
                     </Link>
 
                     <div className="hidden md:flex items-center space-x-6">
-                        <button
+                        <DarkModeSwtich
+                            checked={isDark}
+                            onChange={toggleTheme}
+                        />
+                        {/* <button
                             onClick={toggleTheme}
                             className="text-text-primary hover:text-text-secondary transition-colors cursor-pointer"
                             aria-label="Toggle theme"
@@ -66,7 +71,7 @@ export function Navbar() {
                             ) : (
                                 <Moon className="w-5 h-5" />
                             )}
-                        </button>
+                        </button> */}
 
                         <Link
                             href="/#features"
