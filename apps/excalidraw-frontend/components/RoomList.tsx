@@ -24,7 +24,7 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
 
         try {
             const { data: createdRoom } = await axios.post(
-                `${HTTP_BACKEND}/room`,
+                `${HTTP_BACKEND}room`,
                 { name: name.trim() },
                 { headers: { Authorization: token } }
             );
@@ -43,7 +43,7 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
     const handleJoinRoom = async (roomName: string) => {
         const toastId = toast.loading("Entering...");
         try {
-            const res = await axios.get(`${HTTP_BACKEND}/room/${roomName}`);
+            const res = await axios.get(`${HTTP_BACKEND}room/${roomName}`);
             console.log(res);
 
             const room = res.data;
@@ -74,7 +74,7 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
                 prevRooms.filter((room) => room.id !== roomId)
             );
 
-            await axios.get(`${HTTP_BACKEND}/delete-room/${roomId}`, {
+            await axios.get(`${HTTP_BACKEND}delete-room/${roomId}`, {
                 method: "GET",
                 headers: { Authorization: token },
             });
@@ -94,7 +94,7 @@ export default function RoomList({ initialRooms }: { initialRooms: Room[] }) {
         if (!token) return;
 
         axios
-            .get(`${HTTP_BACKEND}/userRooms`, {
+            .get(`${HTTP_BACKEND}userRooms`, {
                 headers: { Authorization: token },
             })
             .then((res) => {

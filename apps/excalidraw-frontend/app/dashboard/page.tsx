@@ -37,7 +37,7 @@ async function getUserRooms(): Promise<Room[]> {
         console.log(token);
         if (!token) return [];
 
-        const res = await axios.get(`${HTTP_BACKEND}/userRooms`, {
+        const res = await axios.get(`${HTTP_BACKEND}userRooms`, {
             headers: {
                 Authorization: token,
             },

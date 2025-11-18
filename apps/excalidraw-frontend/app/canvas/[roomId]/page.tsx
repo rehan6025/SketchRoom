@@ -15,7 +15,7 @@ export default async function CanvasPage({
     // If it's already a number string, use it directly. Otherwise, resolve slug -> id
     let numericId = Number(slugOrId);
     if (Number.isNaN(numericId)) {
-        const res = await axios.get(`${HTTP_BACKEND}/room/${slugOrId}`);
+        const res = await axios.get(`${HTTP_BACKEND}room/${slugOrId}`);
         numericId = Number(res.data.id);
     }
 
