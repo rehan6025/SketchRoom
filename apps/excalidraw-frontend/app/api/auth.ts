@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function loginUser(email: string, password: string) {
     try {
-        const res = await axios.post(`${HTTP_BACKEND}/signin`, {
+        const res = await axios.post(`${HTTP_BACKEND}signin`, {
             username: email,
             password,
         });
@@ -22,7 +22,7 @@ export async function signupUser(
     password: string
 ) {
     try {
-        const res = await axios.post(`${HTTP_BACKEND}/signup`, {
+        const res = await axios.post(`${HTTP_BACKEND}signup`, {
             username: email,
             password,
             name,
