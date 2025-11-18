@@ -9,7 +9,6 @@ export async function loginUser(email: string, password: string) {
         });
 
         const token = res.data.token;
-        console.log(token);
 
         return token;
     } catch (error) {
