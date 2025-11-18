@@ -7,6 +7,10 @@
             "inputs": ["$TURBO_DEFAULT$", ".env*"],
             "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
         },
+        "prisma:generate": {
+            "cache": false,
+            "outputs": ["node_modules/.prisma/**"]
+        },
         "lint": {
             "dependsOn": ["^lint"]
         },
