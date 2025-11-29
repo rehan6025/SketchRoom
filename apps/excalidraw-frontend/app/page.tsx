@@ -51,7 +51,7 @@ export default function Home() {
                                 </Button>
                             </Link>
 
-                            <Link href={""}>
+                            <Link href={"https://www.youtube.com/watch?v=V3p6lDRJX50"} target="_blank">
                                 <Button variant="outline" size="lg">
                                     <Play className="mr-1 w-5 h-5" />
                                     Watch Demo
