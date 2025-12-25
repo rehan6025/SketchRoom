@@ -69,11 +69,29 @@ export class Game {
         const screenX = worldX * this.scale + this.offsetX;
         const screenY = worldY * this.scale + this.offsetY;
         const textarea = document.createElement("textarea");
+
         textarea.style.position = "absolute";
         textarea.style.left = `${screenX}px`;
-        textarea.style.top = `${screenY}px`;
+        textarea.style.top = `${screenY - 20}px`;
+
+        const fontSize = 24 * this.scale;
+        textarea.style.fontSize = `${fontSize}px`;
+        textarea.style.fontFamily = "sans-serif";
+        textarea.style.lineHeight = "1.2";
+        textarea.style.color = this.ctx.strokeStyle as string;
+
+        textarea.style.background = "transparent";
+        textarea.style.border = "none";
+        textarea.style.outline = "none";
+        textarea.style.padding = "0";
+        textarea.style.margin = "0";
         textarea.style.zIndex = "10";
-        textarea.style.color = `${this.ctx.strokeStyle}`;
+        textarea.style.resize = "none";
+        textarea.style.overflow = "hidden";
+        textarea.style.whiteSpace = "pre";
+
+        textarea.style.minWidth = "100px";
+        textarea.style.minHeight = `${fontSize * 1.2}px`;
 
         const parent = document.getElementById("canvas-container");
         parent?.appendChild(textarea);
@@ -283,16 +301,21 @@ export class Game {
                 const BASE_FONT_SIZE = 24;
 
                 const scaledFontSize = BASE_FONT_SIZE * this.scale;
+                const lineHeight = scaledFontSize * 1.2;
 
                 this.ctx.font = `${scaledFontSize}px Arial`;
 
                 const ogFillStyle = this.ctx.fillStyle;
                 this.ctx.fillStyle = this.ctx.strokeStyle;
 
-                this.ctx.fillText(
-                    shape.text,
-                    shape.x * this.scale + this.offsetX,
-                    shape.y * this.scale + this.offsetY
+                const lines = shape.text.split("\n");
+
+                lines.forEach((line, index) =>
+                    this.ctx.fillText(
+                        line,
+                        shape.x * this.scale + this.offsetX,
+                        shape.y * this.scale + this.offsetY + index * lineHeight
+                    )
                 );
 
                 this.ctx.fillStyle = ogFillStyle;
