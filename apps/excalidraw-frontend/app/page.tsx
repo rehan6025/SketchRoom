@@ -152,7 +152,7 @@ export default function Home() {
 
                 <section
                     id="how-it-works"
-                    className="py-20 bg-gradient-to-br from-bg-primary via-purple-50/30 dark:via-purple-900/10 to-bg-primary"
+                    className="relative z-10 py-20 bg-gradient-to-br from-bg-primary via-purple-50/30 dark:via-purple-900/10 to-bg-primary"
                 >
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center mb-16">
@@ -169,7 +169,7 @@ export default function Home() {
                     </div>
                 </section>
 
-                <section className="py-20 bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800">
+                <section className="relative z-10 py-20 bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800">
                     <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
                         <h2 className="font-bold text-white text-4xl mb-6">
                             Ready to create together?

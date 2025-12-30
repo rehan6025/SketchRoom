@@ -27,7 +27,7 @@ const AnimatedBackground = () => {
             this.type = ["circle", "rect", "line"][
                 Math.floor(Math.random() * 3)
             ];
-            const colors = ["#00adb5", "#9bd2d4", "#10b981"];
+            const colors = ["#00adb5", "#9bd2d4", "#525252"];
             this.color = colors[Math.floor(Math.random() * colors.length)];
             this.rotation = Math.floor(Math.random() * Math.PI * 2);
             this.rotationSpeed = Math.random() * 0.04 - 0.02;

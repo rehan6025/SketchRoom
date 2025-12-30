@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function Footer() {
     return (
-        <footer className="text-text-light py-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
+        <footer className="relative z-10 text-text-light py-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row items-center justify-between mb-8">
                     <Logo />
