@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { Navbar } from "@/components/NavBar";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RoomList from "@/components/RoomList";
