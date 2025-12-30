@@ -46,7 +46,7 @@ export function Navbar() {
     };
 
     return (
-        <nav className="fixed transition-colors duration-300 top-0 w-full bg-bg-primary/50 dark:bg-bg-primary/70 backdrop-blur-2xl border-b-2  border-border-primary z-10">
+        <nav className="z-50 fixed transition-colors duration-300 top-0 w-full bg-bg-primary/50 dark:bg-bg-primary/70 backdrop-blur-2xl border-b-2  border-border-primary ">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <Link className="flex space-x-2 items-center" href="/">

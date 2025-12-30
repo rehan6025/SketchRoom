@@ -1,3 +1,4 @@
+import AnimatedBackground from "@/components/AnimatedBackground";
 import Features from "@/components/Features";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/NavBar";
@@ -19,6 +20,7 @@ export default function Home() {
         <>
             <Navbar />
             <div className="min-h-screen duration-500 bg-bg-primary overflow-x-hidden">
+                <AnimatedBackground />
                 <section className="pt-32 pb-20 font-base transition-colors duration-500 relative border-b border-border-secondary">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                         <div className="mb-8 inline-flex items-center space-x-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-accent  px-4 py-2 border border-cyan-200 dark:border-cyan-800">
@@ -51,7 +53,12 @@ export default function Home() {
                                 </Button>
                             </Link>
 
-                            <Link href={"https://www.youtube.com/watch?v=V3p6lDRJX50"} target="_blank">
+                            <Link
+                                href={
+                                    "https://www.youtube.com/watch?v=V3p6lDRJX50"
+                                }
+                                target="_blank"
+                            >
                                 <Button variant="outline" size="lg">
                                     <Play className="mr-1 w-5 h-5" />
                                     Watch Demo
