@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
+const outfit = Outfit({
+    subsets: ["latin"],
+    variable: "--font-outfit",
+    display: "swap",
+});
+
 export const metadata: Metadata = {
-    title: "SketchRoom",
-    description: "Collaborative Canvas Site",
+    title: "SketchRoom - Real-Time Collaborative Whiteboard",
+    description: "The intuitive collaborative sketching platform. Sketch, design, and create together in real-time.",
 };
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _twSafelist = [
     "px-4",
@@ -51,9 +59,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="transition-colors duration-300">
+        <html lang="en" className={`${outfit.variable} transition-colors duration-300`}>
             <head></head>
-            <body className="antialiased">{children}</body>
+            <body className="font-sans antialiased selection:bg-cyan-500/20 selection:text-cyan-700 dark:selection:text-cyan-300">
+                {children}
+            </body>
         </html>
     );
 }
