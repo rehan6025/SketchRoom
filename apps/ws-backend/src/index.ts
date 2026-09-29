@@ -6,7 +6,7 @@ import { prismaClient } from "@repo/db";
 // used render ka port here, otherwise for local , 8080
 const RENDER_PORT = Number(process.env.PORT || 8080);
 const wss = new WebSocketServer({ port: RENDER_PORT });
-const SKIP_DB = process.env.NO_DB === "1" || process.env.NO_DB === "true";
+const SKIP_DB = process.env.NO_DB?.trim() === "1" || process.env.NO_DB?.trim().toLowerCase() === "true";
 const FLUSH_MS = Number(process.env.FLUSH_MS ?? 10);
 const MAX_BATCH_SIZE = Number(process.env.MAX_BATCH_SIZE ?? 100);
 

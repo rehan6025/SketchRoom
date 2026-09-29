@@ -18,10 +18,12 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import SpecularButton from "@/components/SpecularButton";
+import SmoothScroll from "@/components/SmoothScroll";
 
 export default function Home() {
     return (
         <>
+            <SmoothScroll />
             <Navbar />
             <div className="min-h-[100svh] duration-300 bg-bg-primary overflow-x-hidden relative">
                 {/* Hero Section - Centered Layout with Scoped GradientWaves WebGL Background */}
