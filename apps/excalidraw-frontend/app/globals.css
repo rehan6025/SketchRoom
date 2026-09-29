@@ -115,6 +115,19 @@ html {
     font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
 }
 
+/* Enable clean circular reveal for View Transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Ensure the incoming theme renders on top */
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+
 /* React Bits style Shine animation */
 @keyframes shine {
     0% {
