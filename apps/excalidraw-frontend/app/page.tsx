@@ -19,6 +19,9 @@ import {
 import Link from "next/link";
 import SpecularButton from "@/components/SpecularButton";
 import SmoothScroll from "@/components/SmoothScroll";
+import CollaborationCard from "@/components/feature-cards/CollaborationCard";
+import CanvasToolsCard from "@/components/feature-cards/CanvasToolsCard";
+
 
 export default function Home() {
     return (
@@ -143,70 +146,27 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-                <section id="features" className="py-20 bg-bg-primary">
-                    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-16">
-                            <h2 className="text-4xl font-bold text-text-primary mb-4">
-                                Everything you need to create together
+                {/* Features Section - Tactile Layered Cards */}
+                <section id="features" className="py-24 sm:py-32 bg-bg-primary transition-colors duration-300 scroll-mt-24 sm:scroll-mt-28">
+                    <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+                        {/* Section Header */}
+                        <div className="text-center max-w-2xl mx-auto mb-14">
+                            <div className="mb-4 inline-flex items-center space-x-2 rounded-full bg-bg-secondary px-3.5 py-1 border border-border-primary shadow-md text-xs font-medium text-text-secondary backdrop-blur-md">
+                                
+                                <span>Features</span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary mb-4">
+                                Keep every stroke in sync
                             </h2>
-                            <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-                                Powerful tools designed for seamless
-                                collaboration.
+                            <p className="text-base sm:text-lg text-text-secondary font-normal leading-relaxed">
+                                Forget complex workflows and delayed feedback. Sketch, review, and iterate together in real-time.
                             </p>
                         </div>
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                            <div className="text-center p-6">
-                                <div className="w-16 h-16 justify-center bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center rounded-2xl mx-auto mb-4">
-                                    <Users className="w-8 h-8 text-white" />
-                                </div>
-                                <h3 className="font-bold text-text-primary text-xl leading-relaxed mb-2">
-                                    Real-time Collaboration
-                                </h3>
-                                <p className="text-text-secondary">
-                                    Work together seamlessly with live cursors
-                                    and instant updates.
-                                </p>
-                            </div>
-
-                            <div className="text-center p-6">
-                                <div className="w-16 h-16 justify-center bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center rounded-2xl mx-auto mb-4">
-                                    <Palette className="w-8 h-8 text-white" />
-                                </div>
-                                <h3 className="font-bold text-text-primary text-xl leading-relaxed mb-2">
-                                    Professional Tools
-                                </h3>
-                                <p className="text-text-secondary">
-                                    Advanced brushes, layers, and everything you
-                                    need to create.
-                                </p>
-                            </div>
-
-                            <div className="text-center p-6">
-                                <div className="w-16 h-16 justify-center bg-gradient-to-br from-blue-500 to-blue-600 flex items-center rounded-2xl mx-auto mb-4">
-                                    <Globe className="w-8 h-8 text-white" />
-                                </div>
-                                <h3 className="font-bold text-text-primary text-xl leading-relaxed mb-2">
-                                    Cloud Sync
-                                </h3>
-                                <p className="text-text-secondary">
-                                    Access your art from anywhere with automatic
-                                    saving.
-                                </p>
-                            </div>
-
-                            <div className="text-center p-6">
-                                <div className="w-16 h-16 justify-center bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center rounded-2xl mx-auto mb-4">
-                                    <Zap className="w-8 h-8 text-white" />
-                                </div>
-                                <h3 className="font-bold text-text-primary text-xl leading-relaxed mb-2">
-                                    Lightning Fast
-                                </h3>
-                                <p className="text-text-secondary">
-                                    Smooth sketching experience with zero lag,
-                                    even with multiple users.
-                                </p>
-                            </div>
+                        {/* Feature Cards Grid (2-Column Layout matching reference) */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto items-stretch">
+                            <CollaborationCard />
+                            <CanvasToolsCard />
                         </div>
                     </div>
                 </section>
