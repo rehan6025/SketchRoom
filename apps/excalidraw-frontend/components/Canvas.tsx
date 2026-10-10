@@ -122,6 +122,10 @@ function TopBar({
             >
                 <Sun />
             </button>
+
+            <button
+                className="rounded-full bg-black p-2"
+            > Invite </button>
         </div>
     );
 }

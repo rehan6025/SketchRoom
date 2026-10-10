@@ -1,5 +1,5 @@
 import GradientWaves from "@/components/GradientWaves";
-import Features from "@/components/Features";
+import WorkflowSteps from "@/components/WorkflowSteps";
 import { Footer } from "@/components/Footer";
 import HeroCanvasPreview from "@/components/HeroCanvasPreview";
 import { Navbar } from "@/components/NavBar";
@@ -21,6 +21,8 @@ import SpecularButton from "@/components/SpecularButton";
 import SmoothScroll from "@/components/SmoothScroll";
 import CollaborationCard from "@/components/feature-cards/CollaborationCard";
 import CanvasToolsCard from "@/components/feature-cards/CanvasToolsCard";
+import TaskTrackingCard from "@/components/feature-cards/TaskTrackingCard";
+import CustomizableWorkspacesCard from "@/components/feature-cards/CustomizableWorkspacesCard";
 
 
 export default function Home() {
@@ -163,32 +165,36 @@ export default function Home() {
                             </p>
                         </div>
 
-                        {/* Feature Cards Grid (2-Column Layout matching reference) */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto items-stretch">
-                            <CollaborationCard />
-                            <CanvasToolsCard />
-                        </div>
-                    </div>
-                </section>
+                        {/* Feature Cards Grid (Bento Layout matching reference) */}
+                        <div className="max-w-5xl mx-auto space-y-6 lg:space-y-8">
+                            {/* Top Row: Collaboration & Time Tools */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+                                <CollaborationCard />
+                                <CanvasToolsCard />
+                            </div>
 
-                <section
-                    id="how-it-works"
-                    className="relative z-10 py-20 bg-gradient-to-br from-bg-primary via-purple-50/30 dark:via-purple-900/10 to-bg-primary"
-                >
-                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-16">
-                            <h2 className="text-4xl font-bold mb-4 text-text-primary">
-                                Start creating in seconds
-                            </h2>
-                            <p className="text-xl text-text-secondary">
-                                No complex setup. Just open your browser and
-                                start sketching.
+                            {/* Bottom Row: Asymmetric Wide Task Tracking (7 cols) + Dashed Customizable Workspaces (5 cols) */}
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+                                <div className="lg:col-span-7">
+                                    <TaskTrackingCard />
+                                </div>
+                                <div className="lg:col-span-5">
+                                    <CustomizableWorkspacesCard />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Subtle bottom note matching reference */}
+                        <div className="text-center mt-12">
+                            <p className="text-xs sm:text-sm font-medium text-text-secondary/70">
+                                and a lot more features...
                             </p>
                         </div>
-
-                        <Features />
                     </div>
                 </section>
+
+                {/* Staggered 3-Step Workflow Section (matching sample video frames 14-16) */}
+                <WorkflowSteps />
 
                 <section className="relative z-10 py-16 sm:py-20 bg-gradient-to-b from-bg-primary via-bg-secondary/60 to-bg-primary border-t border-border-primary/40">
                     <div className="max-w-3xl mx-auto text-center px-4 sm:px-6 lg:px-8">

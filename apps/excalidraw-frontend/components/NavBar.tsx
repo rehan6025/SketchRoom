@@ -92,7 +92,7 @@ export function Navbar() {
                     {/* Left: Brand Logo & Title */}
                     <Link className="flex space-x-2.5 items-center pl-1 sm:pl-2 group" href="/">
                         <Logo />
-                        <span className="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 tracking-tight group-hover:text-cyan-500 transition-colors">
+                        <span className="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100 tracking-tight">
                             SketchRoom
                         </span>
                     </Link>

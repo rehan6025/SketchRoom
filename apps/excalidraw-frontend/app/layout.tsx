@@ -61,7 +61,7 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${outfit.variable} transition-colors duration-300`}>
             <head></head>
-            <body className="font-sans antialiased selection:bg-cyan-500/20 selection:text-cyan-700 dark:selection:text-cyan-300">
+            <body className="font-sans antialiased selection:bg-zinc-900/15 selection:text-zinc-900 dark:selection:bg-white/20 dark:selection:text-white">
                 {children}
             </body>
         </html>

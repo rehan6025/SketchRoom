@@ -85,7 +85,7 @@ export function AuthPage({ isSignIn: initialIsSignIn }: { isSignIn: boolean }) {
                 {/* Auth Card */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
                     {/* Logo */}
-                    <div className="flex items-center justify-center space-x-3   mb-8">
+                    <div className="flex items-center justify-center space-x-3 mb-8 group cursor-pointer select-none">
                         <Logo />
                         <span className="text-2xl font-bold text-gray-900">
                             SketchRoom

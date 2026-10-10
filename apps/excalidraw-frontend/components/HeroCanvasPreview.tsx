@@ -475,7 +475,7 @@ export default function HeroCanvasPreview() {
             className="relative w-full select-none"
         >
             {/* Ambient Depth Glow behind studio frame */}
-            <div className="absolute -inset-1.5 bg-gradient-to-tr from-cyan-500/15 via-teal-500/10 to-transparent rounded-2xl blur-xl opacity-80 -z-10" />
+            <div className="absolute -inset-1.5 bg-gradient-to-tr from-white/15 via-white-500/10 to-transparent rounded-2xl blur-xl opacity-80 -z-10" />
 
             {/* Canvas Container Frame (Architectural Studio Look) */}
             <div className="relative rounded-2xl border border-border-primary bg-bg-canvas shadow-xl overflow-hidden">
