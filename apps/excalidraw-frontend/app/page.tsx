@@ -11,13 +11,13 @@ import {
     CheckCircle,
     Globe,
     Palette,
-    Play,
     Sparkles,
     Users,
     Zap,
 } from "lucide-react";
 import Link from "next/link";
 import SpecularButton from "@/components/SpecularButton";
+import { WatchDemoButton } from "@/components/WatchDemoButton";
 import SmoothScroll from "@/components/SmoothScroll";
 import CollaborationCard from "@/components/feature-cards/CollaborationCard";
 import CanvasToolsCard from "@/components/feature-cards/CanvasToolsCard";
@@ -113,16 +113,7 @@ export default function Home() {
                                     </SpecularButton>
                                 </Link>
 
-                                <Link
-                                    href="https://www.youtube.com/watch?v=V3p6lDRJX50"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <button className="h-11 px-5 rounded-xl border border-border-primary bg-bg-secondary/80 hover:bg-bg-secondary text-text-primary font-medium text-sm flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.98] shadow-sm cursor-pointer select-none backdrop-blur-md">
-                                        <Play className="w-3.5 h-3.5 fill-current opacity-70 text-text-secondary" />
-                                        <span>Watch Demo</span>
-                                    </button>
-                                </Link>
+                                <WatchDemoButton />
                             </div>
 
                             {/* Centered Trust Indicators */}
