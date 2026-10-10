@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import { Button } from "@repo/ui/button";
 import Link from "next/link";
 import DarkModeSwtich from "./DarkModeSwtich";
+import { BackendStatusButton } from "./BackendStatusButton";
 import { Menu, X } from "lucide-react";
 
 export function Navbar() {
@@ -130,8 +131,9 @@ export function Navbar() {
                         )}
                     </div>
 
-                    {/* Right: Theme Toggle & Inverted High-Contrast Pill CTA */}
-                    <div className="hidden md:flex items-center space-x-3.5">
+                    {/* Right: Backend Status, Theme Toggle & Inverted High-Contrast Pill CTA */}
+                    <div className="hidden md:flex items-center space-x-3">
+                        <BackendStatusButton />
                         <DarkModeSwtich
                             checked={isDark}
                             onChange={toggleTheme}
@@ -178,6 +180,9 @@ export function Navbar() {
                             How it works
                         </Link>
                         <div className="pt-2 flex flex-col gap-2">
+                            <div className="pb-1">
+                                <BackendStatusButton />
+                            </div>
                             {hasToken ? (
                                 <button
                                     onClick={() => {

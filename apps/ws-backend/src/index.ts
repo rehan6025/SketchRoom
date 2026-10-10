@@ -1,3 +1,4 @@
+import http from "http";
 import { WebSocket, WebSocketServer } from "ws";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT_SECRET } from "@repo/common";
@@ -5,7 +6,30 @@ import { prismaClient } from "@repo/db";
 
 // used render ka port here, otherwise for local , 8080
 const RENDER_PORT = Number(process.env.PORT || 8080);
-const wss = new WebSocketServer({ port: RENDER_PORT });
+
+const server = http.createServer((req, res) => {
+    // Enable CORS so frontend can ping without CORS block
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+    if (req.method === "OPTIONS") {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+    if (req.url === "/health" || req.url === "/ping" || req.url === "/") {
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ status: "ok", service: "ws-backend" }));
+        return;
+    }
+    res.writeHead(404);
+    res.end();
+});
+
+const wss = new WebSocketServer({ server });
+
+server.listen(RENDER_PORT, () => {
+    console.log(`ws-backend listening on port ${RENDER_PORT}`);
+});
 const SKIP_DB = process.env.NO_DB?.trim() === "1" || process.env.NO_DB?.trim().toLowerCase() === "true";
 const FLUSH_MS = Number(process.env.FLUSH_MS ?? 10);
 const MAX_BATCH_SIZE = Number(process.env.MAX_BATCH_SIZE ?? 100);

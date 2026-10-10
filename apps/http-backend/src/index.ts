@@ -15,6 +15,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "ok", service: "http-backend" });
+});
+
 app.post("/signup", async (req, res) => {
     const parsedData = CreateUserSchema.safeParse(req.body);
     if (!parsedData.success) {
@@ -291,6 +295,7 @@ app.get("/userRooms", middleware, async (req, res) => {
     }
 });
 
-app.listen(3001, () => {
-    console.log("Server is running on http://localhost:3001");
+const PORT = Number(process.env.PORT || 3001);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
